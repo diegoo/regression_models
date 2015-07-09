@@ -11,3 +11,9 @@
 # produced vignettes
 vignettes/*.html
 vignettes/*.pdf
+course_materials
+newly-recorded/
+week1
+week2
+week3
+week4
