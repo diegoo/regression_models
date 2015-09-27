@@ -1,0 +1,45 @@
+---
+title: "Regression Models - Course Project"
+author: "Diego Dell'Era"
+output: pdf_document
+---
+
+# Goal
+
+Explore the relationship between a set of variables and miles per gallon (MPG) (outcome):
+
+* Is an automatic or manual transmission better for MPG?
+* Quantify the MPG difference between automatic and manual transmissions
+
+## Exploratory Analysis
+
+```{r, results='markup'}
+data(mtcars)
+summary(mtcars$mpg)
+```
+
+```{r, results='markup', fig.width = 16, fig.height = 4}
+library(plyr)
+library(ggplot2)
+
+mtcars$transmission_type <- as.factor(mtcars$am)
+mtcars$transmission_type <- revalue(mtcars$transmission_type, c("0"="automatic", "1"="manual"))
+ggplot(mtcars, aes(y=mpg, y=transmission_type)) + geom_boxplot() + ggtitle("mpg by transmission type")
+```
+
+```{r, results='markup'}
+mpg_for_automatic <- mtcars[which(mtcars$transmission_type == 'automatic'),]$mpg
+mpg_for_manual <- mtcars[which(mtcars$transmission_type == 'manual'),]$mpg
+t.test(mpg_for_automatic, mpg_for_manual)
+```
+
+```{r, results='markup'}
+library(corrgram)
+corrgram(mtcars, order=TRUE, lower.panel=panel.shade, upper.panel=NULL, text.panel=panel.txt, main="correlations")
+```
+
+fit.all <- lm(mpg ~ ., data=mtcars)
+summary(fit.all)
+
+
+
